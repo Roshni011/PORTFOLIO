@@ -87,7 +87,9 @@ function Chat() {
     setBusy(true);
 
     try {
-      const apiBaseUrl = import.meta.env.VITE_API_URL?.replace(/\/+$/, "") || "";
+      const apiBaseUrl =
+        import.meta.env.VITE_API_URL?.replace(/\/+$/, "") ||
+        "https://portfolio-backend-weld-phi.vercel.app";
       const response = await fetch(`${apiBaseUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },

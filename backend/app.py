@@ -69,7 +69,13 @@ allowed_origins = [
     for origin in os.getenv("CORS_ORIGINS", "").split(",")
     if origin.strip()
 ]
-allowed_origins.extend(["http://127.0.0.1:5173", "http://localhost:5173"])
+allowed_origins.extend(
+    [
+        "https://portfolio-frontend-rho-lilac.vercel.app",
+        "http://127.0.0.1:5173",
+        "http://localhost:5173",
+    ]
+)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=allowed_origins,
