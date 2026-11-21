@@ -64,9 +64,15 @@ Achievements:
 """
 
 app = FastAPI(title="Roshni Portfolio API")
+allowed_origins = [
+    origin.strip()
+    for origin in os.getenv("CORS_ORIGINS", "").split(",")
+    if origin.strip()
+]
+allowed_origins.extend(["http://127.0.0.1:5173", "http://localhost:5173"])
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://127.0.0.1:5173", "http://localhost:5173"],
+    allow_origins=allowed_origins,
     allow_methods=["POST", "GET"],
     allow_headers=["*"],
 )

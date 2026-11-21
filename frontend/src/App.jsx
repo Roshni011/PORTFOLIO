@@ -87,12 +87,21 @@ function Chat() {
     setBusy(true);
 
     try {
-      const response = await fetch("/api/chat", {
+      const apiBaseUrl = import.meta.env.VITE_API_URL?.replace(/\/+$/, "") || "";
+      const response = await fetch(`${apiBaseUrl}/api/chat`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message, history: history.current.slice(-8) })
       });
-      const data = await response.json();
+      const responseText = await response.text();
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch {
+        throw new Error(
+          "The chat API returned a web page instead of JSON. Deploy the backend and set VITE_API_URL to its public URL."
+        );
+      }
       if (!response.ok) throw new Error(data.detail || data.error || "Unable to answer right now.");
       setMessages((current) => [...current, { role: "assistant", text: data.answer }]);
       history.current = [
